@@ -1,0 +1,28 @@
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def __init__(self):
+        self.ans = 0
+    def solve(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+        left = self.maxPathSum(root.left)
+        right = self.maxPathSum(root.right)
+        self.ans = max(self.ans,left+right+root.val)
+        temp = max(left,right)+root.val
+        return max(temp,root.val,0)
+        
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.solve(root)
+        return self.ans
+obj= Solution()
+root1 = TreeNode(1)
+root2 = TreeNode(2)
+root3 = TreeNode(3)
+root1.left = root2
+root1.right = root3
+print(obj.maxPathSum(root1))
