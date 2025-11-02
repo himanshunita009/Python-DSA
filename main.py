@@ -1,27 +1,25 @@
-# cook your dish here
-def findGcd(a,b):
-    if a == 0:
-        return b
-    if b == 0:
-        return a
-    if a == b:
-        return a
-    if a >  b:
-        return findGcd(a-b,b)
-    return findGcd(a,b-a)
-
-
+import math
+def gcd(a: int,b: int):
+    if a < b:
+        return gcd(b,a)
+    while b != 0:
+        a,b = b,a%b
+    return a
 def main():
     t = int(input())
-    while(t > 0):
-        a,b = map(int,list(input().split(' ')))
-        gcd = findGcd(a,b)
-        if gcd > 1:
-            print(0)
-        if b%2 != 0 and a%2 != 0:
-            print(2)
-        else :
-            print(1)
+    while t > 0:
+        n = int(input())
+        arr = list(map(int,input().split()))
+        g = arr[0]
+        for num in arr[1:]:
+            g = gcd(g,num)
+        x = 2
+        while True:
+            if math.gcd(g,x) == 1:
+                print(x)
+                break
+            x += 1
         t -= 1
-if __name__ == '__main__':
-    main()
+
+
+main()

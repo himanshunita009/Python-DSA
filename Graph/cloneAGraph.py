@@ -3,13 +3,17 @@ class Node:
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
+from typing import Optional
 class Solution:
-    def __init__(self):
-        self.visited = set()
-    def cloneGraph(self, node: Node) :
-        self.visited.add(node.val)
-        root = Node(node.val)
-        for nighNode in node.neighbors :
-            if nighNode.val not in self.visited :
-                root.neighbors.append(self.cloneGraph(nighNode))
-        return root        
+    def cloneGraph(self, node: Node) -> Node:
+        vis = dict()
+        return self.solve(node,vis)
+    def solve(self,node: Node,vis: dict):
+        newNode = Node(node.val)
+        vis[node.val] = newNode
+        for adjNode in node.neighbors:
+            if adjNode.val in vis:
+                newNode.neighbors.append(vis[adjNode.val])
+            else:
+                newNode.neighbors.append(self.solve(adjNode,vis))
+        return newNode
