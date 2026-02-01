@@ -1,0 +1,13 @@
+def solve():
+    pass
+def main():
+    t = int(input())
+    for _ in range(t):
+        n = int(input())
+        if n%2 != 0:
+            print(0)
+        else:
+            print(n//4+1)
+
+
+main()
