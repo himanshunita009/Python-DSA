@@ -1,22 +1,22 @@
 class Solution:
-    def solve(self,currIdx: int,prevIdx: int,k: int):
-        if k == 0:
-            return self.nums[currIdx]
-        elif currIdx == len(self.nums):
-            return float('inf')
-        if (currIdx,prevIdx,k) in self.dp:
-            return self.dp[(currIdx,prevIdx,k)]
-        partition = self.nums[prevIdx+1] + self.solve(currIdx+1,currIdx,k-1)
-        notPartition = float('inf')
-        if k < len(self.nums)-1 - currIdx:
-            notPartition = self.solve(currIdx+1,prevIdx,k)
-        self.dp[(currIdx,prevIdx,k)] = min(partition,notPartition)
-        return self.dp[(currIdx,prevIdx,k)]
-
-    def minPartitionScore(self, nums: list[int]) -> int:
-        self.nums = nums
-        self.dp = dict()
-        return self.solve(0,-1,2)
-    
+    def countSubmatrices(self, grid: list[list[int]], k: int) -> int:
+        if grid[0][0] > k:
+            return 0
+        n = len(grid)+1
+        m = len(grid[0])
+        ans = 0
+        grid.insert(0,[0]*m)
+        for row in range(1,n):
+            grid[row][0] += grid[row-1][0]
+            if grid[row][0] <= k:
+                ans += 1
+                # grid[row][0]
+            else:
+                break
+            for col in range(1,m):
+                grid[row][col] = grid[row][col-1]+grid[row-1][col] - grid[row-1][col-1]
+                if grid[row][col] <= k:
+                    ans += 1 
+        return ans
 obj = Solution()
-print(obj.minPartitionScore([10,3,1,1]))
+print(obj.countSubmatrices([[7,6,3],[6,6,1]],18))
